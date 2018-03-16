@@ -20,9 +20,11 @@ module VimeoMe2
       # @param [String] link a link to a video on the Internet that is accessible to Vimeo’s upload server
       def pull_upload name, link, options = {}
         body = {
-          type: 'pull',
-          link: link,
-          name: name.present? ? name : @video.original_filename
+          upload: {
+            approach: 'pull',
+            link: link,
+            name: name.present? ? name : @video.original_filename
+          }
         }.merge!(options)
 
         post '/videos', body: body

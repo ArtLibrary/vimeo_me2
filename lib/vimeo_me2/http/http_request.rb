@@ -53,7 +53,7 @@ module VimeoMe2
         end
 
         def reset_request
-          @headers = { 'Content-Type' => 'application/json' }
+          @headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/vnd.vimeo.*+json;version=3.4' }
           @body = {}
           @query = {}
           set_auth_header(@token) unless @token.nil?
@@ -79,7 +79,7 @@ module VimeoMe2
           log "#{call.code} #{call.msg}"
           log ""
           status = [status] unless status.is_a? Array
-          unless status.include? call.code
+          unless [200, 201, 204].include?(call.code)
             if call.response.body.nil? || call.response.body.empty?
               raise RequestFailed.new(call.code, call.msg)
             else
